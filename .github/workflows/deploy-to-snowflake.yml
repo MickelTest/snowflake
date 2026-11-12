@@ -29,9 +29,13 @@ jobs:
 
       - name: Write private key
         run: |
-          mkdir -p ~/.snowflake
-          echo "${{ secrets.SNOWFLAKE_PRIVATE_KEY }}" > ~/.snowflake/rsa_key.p8
-          chmod 600 ~/.snowflake/rsa_key.p8
+          echo "${{ secrets.SNOWFLAKE_PRIVATE_KEY }}" > "${{ runner.temp }}/rsa_key.p8"
+          chmod 600 "${{ runner.temp }}/rsa_key.p8"
+
+      - name: Run SQL scripts
+        env:
+          ...
+          SNOWFLAKE_CONNECTIONS_DEFAULT_PRIVATE_KEY_FILE: ${{ runner.temp }}/rsa_key.p8
 
       - name: Run SQL scripts
         env:

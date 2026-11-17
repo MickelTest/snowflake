@@ -25,15 +25,15 @@ jobs:
 
       - name: Run SQL scripts
         env:
-          SNOWFLAKE_CONNECTIONS_DEFAULT_ACCOUNT: "${{ secrets.SNOWFLAKE_ACCOUNT }}"
-          SNOWFLAKE_CONNECTIONS_DEFAULT_USER: "${{ secrets.SNOWFLAKE_USER }}"
-          SNOWFLAKE_CONNECTIONS_DEFAULT_AUTHENTICATOR: "SNOWFLAKE_JWT"
-          SNOWFLAKE_CONNECTIONS_DEFAULT_PRIVATE_KEY_FILE: "${{ runner.temp }}/rsa_key.p8"
-          SNOWFLAKE_CONNECTIONS_DEFAULT_ROLE: "${{ secrets.SNOWFLAKE_ROLE }}"
-          SNOWFLAKE_CONNECTIONS_DEFAULT_WAREHOUSE: "${{ secrets.SNOWFLAKE_WAREHOUSE }}"
-          SNOWFLAKE_CONNECTIONS_DEFAULT_DATABASE: "${{ secrets.SNOWFLAKE_DATABASE }}"
+          SNOWFLAKE_ACCOUNT: "${{ secrets.SNOWFLAKE_ACCOUNT }}"
+          SNOWFLAKE_USER: "${{ secrets.SNOWFLAKE_USER }}"
+          SNOWFLAKE_AUTHENTICATOR: "SNOWFLAKE_JWT"
+          SNOWFLAKE_PRIVATE_KEY_FILE: "${{ runner.temp }}/rsa_key.p8"
+          SNOWFLAKE_ROLE: "${{ secrets.SNOWFLAKE_ROLE }}"
+          SNOWFLAKE_WAREHOUSE: "${{ secrets.SNOWFLAKE_WAREHOUSE }}"
+          SNOWFLAKE_DATABASE: "${{ secrets.SNOWFLAKE_DATABASE }}"
         run: |
           for f in $(ls scripts/*.sql | sort); do
             echo "Running $f"
-            snow sql --filename "$f"
+            snow sql -x --filename "$f"
           done
